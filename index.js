@@ -36,7 +36,7 @@ async function run() {
       const result = await contestCollection.insertOne(newContest);
       res.send(result);
     })
-
+ 
 
 
 
