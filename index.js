@@ -30,7 +30,7 @@ async function run() {
 
     const contestCollection = client.db('contestDB').collection('contests');
 
-
+    // Post All Contest Data 
     app.post('/contests', async (req, res) => {
       const newContest = req.body;
       const result = await contestCollection.insertOne(newContest);
