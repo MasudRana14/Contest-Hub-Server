@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
 const port = process.env.PORT || 5000;
 
@@ -37,6 +37,7 @@ async function run() {
       const result = await contestCollection.insertOne(newContest);
       res.send(result);
     })
+    
  
     // User Related Api 
     app.get('/users', async (req, res)=>{
@@ -54,8 +55,38 @@ async function run() {
       res.send(result);
     })
 
+
+    app.patch('/users/admin/:id', async (req, res)=>{
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)};
+      const updatedDoc ={
+        $set:{
+          role: 'admin'
+        }
+      }
+      const result = await userCollection.updateOne(filter, updatedDoc)
+      res.send(result);
+    })
+
+    app.put('/users/admin/:id', async (req, res)=>{
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)};
+      const updatedDoc ={
+        $set:{
+          role: 'creator'
+        }
+      }
+      const result = await userCollection.updateOne(filter, updatedDoc)
+      res.send(result);
+    })
+
     // User Delete 
-    
+    app.delete('/users/:id', async (req, res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await userCollection.deleteOne(query);
+      res.send(result);
+    })
 
 
     // Send a ping to confirm a successful connection
