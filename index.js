@@ -38,6 +38,12 @@ async function run() {
       res.send(result);
     })
     
+    // Get All Contest Data 
+    app.get('/contests', async (req, res) => {
+      const cursor = contestCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
  
     // User Related Api 
     app.get('/users', async (req, res)=>{
